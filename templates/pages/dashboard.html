@@ -29,60 +29,67 @@
     <div class="container p-3 border ">
         <div class="d-flex justify-content-between align-items-center">
             <h4 class="fw-bold">All Students</h4>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search...." aria-label="Search">
+
+            {% comment %} searching {% endcomment %}
+            <form class="d-flex" role="search" method="get">
+
+                <input aria-label="Search" class="form-control me-2" type="search" name="search" placeholder={{ searchingMessage }}>
                 <button class="btn btn-outline-success" id="myInput" type="submit">Search</button>
             </form>
+
+
             <a href="studentform" class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Add Student</a>
         </div>
         <!-- table -->
         <div class="container overflow-auto">
             <table class="table my-4" id="mytable">
+                {% if students %}
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
+                        <th scope="col">ID</th>
+                        {% comment %} <th scope="col">Created At</th> {% endcomment %}
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Collage ID</th>
                         <th scope="col">Course</th>
-                        <th scope="col">College Id</th>
-                        <th scope="col">Mobile</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Mobile Number</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Documents</th>
-                        <th>Action</th>
+                        <th scope="col">File</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Pritesh Kumar</td>
-                        <td>BCA</td>
-                        <td>22BCA024</td>
-                        <td>8544685939</td>
-                        <td><a href="mailto:22bca024@shiats.edu.in">22bca024@shiats.edu.in</a></td>
-                        <td><a href="#" download="pritesh">Download</a></td>
-                        <td>
-                            <div class="d-flex justify-content-evenly">
-                                <a href="./view.html"><i class="fa-solid fa-eye" title="view"></i></a>
-                                <a href="./edit.html"><i class="fa-solid fa-user-pen text-warning" title="edit"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Prince Kumar</td>
-                        <td>BCA</td>
-                        <td>22BCA021</td>
-                        <td>7549673981</td>
-                        <td><a href="mailto:22bca024@shiats.edu.in">22bca024@shiats.edu.in</a></td>
-                        <td><a href="#">Download</a></td>
-                        <td>
-                            <div class="d-flex justify-content-evenly">
-                                <a href="./view.html"><i class="fa-solid fa-eye" title="view"></i></a>
-                                <a href="./edit.html"><i class="fa-solid fa-user-pen text-warning" title="edit"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                {% else %}
+                <div class="alert alert-danger" style=" margin-top: 30px; text-align: center; " role="alert">
+                    <h1>No Data Found!</h1>
+                    {% endif %}
 
-                </tbody>
+                    <tbody>
+                        {% for student in students %}
+                        {% if student %}
+                        <tr>
+                            <th scope="row">{{student.id}}</th>
+                            {% comment %} <th scope="row">{{student.created_at}}</th> {% endcomment %}
+                            <td>{{student.fullName}}</td>
+                            <td>{{student.collageId}}</td>
+                            <td>{{student.course}}</td>
+                            <td>{{student.subject}}</td>
+                            <td>{{student.date}}</td>
+                            <td><a href="tel:{{student.mobileNumber}}">{{student.mobileNumber}}</a></td>
+                            <td><a href="mailto:{{student.email}}">{{student.email}}</a></td>
+                            <td><a href="{{ student.file.url }}">Download</a>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-evenly   ">
+                                    <a href="delete"><i class="fa-solid fa-trash-can text-danger" title="delete"></i></a>
+                                    <a href="view"><i class="fa-solid fa-eye" title="view"></i></a>
+                                    <a href="edit"><i class="fa-solid fa-user-pen text-warning" title="edit"></i></a>
+                                </div>
+                            </td>
+                            {% endif %}
+                            {% endfor %}
+
+                    </tbody>
             </table>
         </div>
 

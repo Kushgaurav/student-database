@@ -16,6 +16,24 @@
     <h1 class="text-center text-primary">SHUATS <span class="text-warning">Database</span></h1>
     <hr>
   </div>
+
+  {% for message in messages %}
+  {% if message.tags == 'success' %}
+  {% if messages %}
+  <div class="container mt-5">
+    <!-- Dismissible Alert -->
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close " data-bs-dismiss="alert" aria-label="Close"></button>
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+  {% endfor %}
+
+
   <div class="container p-3 ">
     <div class="d-flex justify-content-between align-items-center">
       <a href="dashboard" class="fw-bolder text-light text-decoration-none btn btn-primary"><i
@@ -23,8 +41,11 @@
     </div>
     <div class="d-flex flex-column align-items-center border shadow-sm p-2 my-4 wrap">
       <div class="input-group mb-3 d-flex justify-content-evenly flex-wrap">
-        <form action="" method="post">
+        <form action="/studentform" method="post" enctype="multipart/form-data">
           {% csrf_token %}
+          
+          {% comment %} {{ form }} {% endcomment %}
+
           <input style="outline: none;" type="text" class="my-2 shadow-sm border p-2 rounded" placeholder="Full Name"
             name="fullName">
 
@@ -62,6 +83,10 @@
 
       </div>
       <input type="submit" value="Save Details" class="fw-bolder text-light text-decoration-none btn btn-success my-2">
+
+
+
+
       </form>
     </div>
   </div>
